@@ -1,57 +1,77 @@
 <template>
-  <div style="height: 40px; margin-top: 5px">
-    <el-row style="line-height: 40px; text-align: center">
-      <el-col :span="2" style="text-align: center">
-        <el-button type="danger" round> 文章管理 </el-button>
-      </el-col>
-      <el-col :span="18" style="text-align: center">
-        <el-input @blur="title=$event.target.value.trim()" class='title-ipt' v-model="title" placeholder="请输入标题" />
-      </el-col>
-      <el-col :span="4" style="text-align: center">
-        <el-button round> 保存草靠 </el-button>
-        <el-button type="danger" round> 保存文章 </el-button>
-      </el-col>
-    </el-row>
-
-    <div>
-
-    </div>
-
-    <!-- <el-page-header :icon="ArrowLeft">
-    <template #content>
-      <span class="text-large font-600 mr-3"> Title </span>
-    </template>
-  </el-page-header> -->
-
+  <div class="common-layout">
+    <el-container class='container'>
+      <el-header>
+        <HeaderComp></HeaderComp>
+      </el-header>
+      <el-container>
+        <el-aside width="16%" class="left-list">
+          <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" text-color="#fff" @open="handleOpen" @close="handleClose">
+            <el-sub-menu index="1">
+              <template #title>
+                <el-icon>
+                  <location />
+                </el-icon>
+                <span>Navigator One</span>
+              </template>
+              <el-menu-item-group title="Group One">
+                <el-menu-item index="1-1">item one</el-menu-item>
+                <el-menu-item index="1-2">item two</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group title="Group Two">
+                <el-menu-item index="1-3">item three</el-menu-item>
+              </el-menu-item-group>
+              <el-sub-menu index="1-4">
+                <template #title>item four</template>
+                <el-menu-item index="1-4-1">item one</el-menu-item>
+              </el-sub-menu>
+            </el-sub-menu>
+            <el-menu-item index="2">
+              <el-icon>
+                <icon-menu />
+              </el-icon>
+              <span>Navigator Two</span>
+            </el-menu-item>
+            <el-menu-item index="3" disabled>
+              <el-icon>
+                <document />
+              </el-icon>
+              <span>Navigator Three</span>
+            </el-menu-item>
+            <el-menu-item index="4">
+              <el-icon>
+                <setting />
+              </el-icon>
+              <span>Navigator Four</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-container>
+          <el-main>
+            <!-- article列表 -->
+            article-list
+          </el-main>
+        </el-container>
+      </el-container>
+    </el-container>
   </div>
-  <br>
-  <md-editor v-model="text" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
-  <el-button> 保存 </el-button>
 </template>
 
-<script lang="ts">
-import { reactive, ref } from 'vue'
-import MdEditor from 'md-editor-v3'
+<script>
+import HeaderComp from '../components/HeaderComp.vue'
 
 export default {
   name: 'HomeView',
-  components: { MdEditor },
-
-  setup() {
-    let text = ref(`
-\`\`\` python
-a = 10
-print('hello world')
-\`\`\`
-    `)
-    let title = ref('')
-    return { text, title }
-  }
+  components: { HeaderComp }
 }
 </script>
 
-<style>
-.title-ipt {
-  width: 100%;
+<style scoped>
+.container {
+  width: 80%;
+  text-align: center;
+  margin: auto auto;
+  padding-top: 60px;
+  height: 100%;
 }
 </style>
