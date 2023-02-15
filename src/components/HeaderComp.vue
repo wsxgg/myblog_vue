@@ -1,8 +1,11 @@
 <template>
+  <div>
+
+  </div>
   <div class='header'>
     <el-row>
-      <el-col :span="4">
-        <el-avatar shape="circle" :size="100" fit="cover" :src="url">
+      <el-col :span="4" style="padding-left:30px;">
+        <el-avatar shape="circle" :size="100" fit="cover" :src="url" class="avatar">
         </el-avatar>
       </el-col>
       <el-col :span="20">
@@ -33,14 +36,19 @@ export default {
 <style scoped>
 .header {
   padding-left: 0;
-  background-color: rgb(219, 18, 112);
+  background-color: white;
   height: 92%;
   width: 100%;
   line-height: 1.5;
   margin: auto auto;
+  border-radius: 5px;
 }
 .brief-infomation {
   text-align: left;
   margin-left: 20px;
+}
+.avatar {
+  margin-top: -15px;
+  border: 4px solid white;
 }
 </style>

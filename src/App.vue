@@ -8,7 +8,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color: blanchedalmond;
+  background-color: grey;
+  background-image: url('./assets/bg.gif');
 }
 </style>
 
