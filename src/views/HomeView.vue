@@ -6,70 +6,47 @@
         <HeaderComp></HeaderComp>
       </el-header>
       <el-container>
-        <el-aside width="22%" class="left-list">
-          <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" text-color="#fff" @open="handleOpen" @close="handleClose">
-            <el-sub-menu index="1">
-              <template #title>
-                <el-icon>
-                  <location />
-                </el-icon>
-                <span>Navigator One</span>
-              </template>
-              <el-menu-item-group title="Group One">
-                <el-menu-item index="1-1">item one</el-menu-item>
-                <el-menu-item index="1-2">item two</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="Group Two">
-                <el-menu-item index="1-3">item three</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="1-4">
-                <template #title>item four</template>
-                <el-menu-item index="1-4-1">item one</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="2">
-              <el-icon>
-                <icon-menu />
-              </el-icon>
-              <span>Navigator Two</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <el-icon>
-                <document />
-              </el-icon>
-              <span>Navigator Three</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <el-icon>
-                <setting />
-              </el-icon>
-              <span>Navigator Four</span>
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-container class="navList-box">
-          <el-main>
-            <!-- article列表 -->
-            <div style="overflow: auto">
-              <ul v-infinite-scroll="load" :infinite-scroll-disabled="disabled" :infinite-scroll-distance="-10" style="list-style-type: none;">
-                <li v-for="item in data.articleList" :key='item.id'>
-                  <el-divider />
-                  <SimpleInfoComp :title="item.title" :context="item.context" :ctime="formatDate(item.ctime)" :type="item.type"></SimpleInfoComp>
-                </li>
-              </ul>
-              <p v-if="loading" style="text-align: center">Loading...</p>
-              <p v-if="noMore" style="text-align: center">No more</p>
+        <el-aside width="22%">
+          <div class="aside-block">
+
+            <div class='aside-box'>
+              <div class="aside-box-title"> 我的专栏 </div>
+              <div class="aside-box-body">
+                <div class="aside-box-body-content">
+                  <ul>
+                    <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
+                      <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
+                        <div class="special-colum-bar"></div>
+                        {{ item }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
             </div>
-          </el-main>
-        </el-container>
+          </div>
+        </el-aside>
+
+        <el-main class="navList-box">
+          <!-- article列表 -->
+          <ul>
+            <li v-for="item in data.articleList" :key='item.id' style="list-style-type:none">
+              <el-divider />
+              <SimpleInfoComp :title="item.title" :context="item.context" :ctime="formatDate(item.ctime)" :type="item.type"></SimpleInfoComp>
+            </li>
+          </ul>
+          <p v-if="loading" style="text-align: center">Loading...</p>
+          <p v-if="noMore" style="text-align: center">No more</p>
+        </el-main>
       </el-container>
+      <el-footer></el-footer>
     </el-container>
   </div>
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { formatDate } from '../utils/common.js'
 import HeaderComp from '../components/HeaderComp.vue'
 import SimpleInfoComp from '../components/SimpleInfoComp.vue'
@@ -145,27 +122,68 @@ export default {
         }
       ]
     })
+    const noMore = ref(false)
     const loading = ref(false)
-    const noMore = computed(() => data.articleList.length >= 20)
-    const disabled = computed(() => loading.value || noMore.value)
-    const load = () => {
-      console.log('load')
-      loading.value = true
 
-      setTimeout(() => {
-        data.articleList.push({
-          id: 6,
-          title: '这个是title',
-          context:
-            '先看一下成果图：图片给大家，从某一篇帖子找的。需要使用的的库：matplotlib.pyplot       绘图展示jeiba		           分词wordcloud.WordCloud	  	     		 绘制词云numpy			           制作背景图PIL.Image		          	制作背景图不知道说什么，说明全在代码里：from matplotlib import pyplot as pltimport jieba',
-          type: 'vue',
-          ctime: new Date()
-        })
-        loading.value = false
-      }, 2000)
+    //获取当前可视范围的高度
+    let getClientHeight = () => {
+      var clientHeight = 0
+      if (document.body.clientHeight && document.documentElement.clientHeight) {
+        clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight)
+      } else {
+        clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
+      }
+      return clientHeight
     }
+    //获取文档完整的高度
+    let getScrollHeight = () => {
+      return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+    }
+    //获取当前滚动条的位置
+    let getScrollTop = () => {
+      var scrollTop = 0
+      //window.pageYOffset = document.documentElement.scrollTop
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = document.documentElement.scrollTop
+      } else if (document.body) {
+        scrollTop = document.body.scrollTop
+      }
+      return scrollTop
+    }
+    let windowScroll = () => {
+      //获取三个值
+      var scrollTop = getScrollTop()
+      var clientHeight = getClientHeight()
+      var scrollHeight = getScrollHeight()
+      console.log(scrollTop, clientHeight, scrollHeight)
+      console.log(scrollTop + clientHeight == scrollHeight)
+      //如果满足公式则，确实到底了
+      if (scrollTop + clientHeight == scrollHeight) {
+        //发送异步请求请求数据，同时携带offset并自增offset
+        //noMore是自定义变量，如果是最后一批数据则以后都不加载
+        console.log('到底了')
+        if (!noMore.value) {
+          console.log('加载数据')
+          loading.value = true
+          setTimeout(() => {
+            let tmp = data.articleList
+            data.articleList.push(...tmp)
+          }, 2000)
+          loading.value = false
+        }
+        if (data.articleList.length > 20) {
+          noMore.value = true
+        }
+      }
+    }
+    onMounted(() => {
+      window.addEventListener('scroll', windowScroll, true) //监听页面滚动
+    })
+    onUnmounted(() => {
+      window.removeEventListener('scroll', windowScroll) //销毁滚动事件
+    })
 
-    return { data, loading, noMore, disabled, formatDate, load }
+    return { data, loading, noMore, formatDate }
   }
 }
 </script>
@@ -179,5 +197,68 @@ export default {
 }
 .navList-box {
   background-color: white;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+.aside-block {
+  position: sticky;
+  top: 0px;
+  align-items: start;
+}
+.aside-box {
+  background-color: white;
+  display: block;
+  border-radius: 5px;
+  margin-right: 6px;
+}
+.aside-box-title {
+  height: 48px;
+  font-size: 16px;
+  color: #222226;
+  font-weight: 500;
+  line-height: 48px;
+  padding-left: 16px;
+  border-bottom: 1px solid #e8e8ed;
+}
+.aside-box-body {
+  padding: 16px;
+}
+.aside-box-body-content ul {
+  border-left: 1px dashed #ccccd8;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  list-style: none;
+  box-sizing: border-box;
+  display: block;
+}
+.aside-box-body-a {
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #555666;
+  font-size: 16px;
+  line-height: 30px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.aside-box-body-a:hover {
+  color: red;
+}
+.special-colum-bar {
+  width: 12px;
+  height: 1px;
+  border-bottom: 1px dashed #ccccd8;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 </style>
