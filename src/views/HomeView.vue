@@ -1,34 +1,47 @@
 <template>
   <div class="common-layout">
-    <el-container class='container'>
-      <img src="../assets/title.gif" alt="" class="header-img" style="width:100%">
-      <el-header>
-        <HeaderComp></HeaderComp>
-      </el-header>
-      <el-container>
-        <el-aside width="22%">
-          <div class="aside-block">
+    <img src="../assets/title.gif" alt="" class="header-img" style="width:100%;padding-top:20px">
+    <div class='container'>
 
-            <div class='aside-box'>
-              <div class="aside-box-title"> 我的专栏 </div>
-              <div class="aside-box-body">
-                <div class="aside-box-body-content">
-                  <ul>
-                    <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
-                      <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
-                        <div class="special-colum-bar"></div>
-                        {{ item }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+      <HeaderComp></HeaderComp>
+
+      <div class="user-body">
+        <div class='aside-block' style="top:40px">
+          <div class='aside-box'>
+            <div class="aside-box-title"> 我的专栏 </div>
+            <div class="aside-box-body">
+              <div class="aside-box-body-content">
+                <ul>
+                  <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
+                    <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
+                      <div class="special-colum-bar"></div>
+                      {{ item }}
+                    </a>
+                  </li>
+                </ul>
               </div>
-
             </div>
-          </div>
-        </el-aside>
 
-        <el-main class="navList-box">
+          </div>
+          <div class='aside-box'>
+            <div class="aside-box-title"> 我的专栏 </div>
+            <div class="aside-box-body">
+              <div class="aside-box-body-content">
+                <ul>
+                  <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
+                    <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
+                      <div class="special-colum-bar"></div>
+                      {{ item }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="navList-box">
           <!-- article列表 -->
           <ul>
             <li v-for="item in data.articleList" :key='item.id' style="list-style-type:none">
@@ -38,11 +51,12 @@
           </ul>
           <p v-if="loading" style="text-align: center">Loading...</p>
           <p v-if="noMore" style="text-align: center">No more</p>
-        </el-main>
-      </el-container>
+        </div>
+      </div>
       <el-footer></el-footer>
-    </el-container>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -190,20 +204,33 @@ export default {
 
 <style scoped>
 .container {
-  width: 70%;
+  /* width: 70%;
   margin: auto auto;
   padding-top: 60px;
-  height: 100%;
+  height: 100%; */
 }
 .navList-box {
   background-color: white;
   border-radius: 4px;
   margin-left: 6px;
+  flex: 1;
+  /* width: 300px; */
 }
 
+.user-body {
+  width: 1320px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  min-height: 700px;
+  padding-bottom: 32px;
+  margin: 10px auto 0;
+}
 .aside-block {
+  width: 280px;
   position: sticky;
-  top: 0px;
+  /* top: 40px; */
   align-items: start;
 }
 .aside-box {
@@ -211,6 +238,7 @@ export default {
   display: block;
   border-radius: 5px;
   margin-right: 6px;
+  margin-bottom: 6px;
 }
 .aside-box-title {
   height: 48px;

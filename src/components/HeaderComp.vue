@@ -1,8 +1,5 @@
 <template>
-  <div>
-
-  </div>
-  <div class='header'>
+  <div class='user-header'>
     <el-row>
       <el-col :span="4" style="padding-left:30px;">
         <el-avatar shape="circle" :size="100" fit="cover" :src="url" class="avatar">
@@ -34,13 +31,13 @@ export default {
 </script>
 
 <style scoped>
-.header {
+.user-header {
   padding-left: 0;
   background-color: white;
-  height: 92%;
-  width: 100%;
+  height: 160px;
+  width: 1320px;
   line-height: 1.5;
-  margin: auto auto;
+  margin: 0 auto 10px;
   border-radius: 5px;
 }
 .brief-infomation {
