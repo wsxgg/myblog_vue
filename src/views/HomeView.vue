@@ -6,38 +6,40 @@
       <HeaderComp></HeaderComp>
 
       <div class="user-body">
-        <div class='aside-block' style="top:40px">
-          <div class='aside-box'>
-            <div class="aside-box-title"> 我的专栏 </div>
-            <div class="aside-box-body">
-              <div class="aside-box-body-content">
-                <ul>
-                  <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
-                    <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
-                      <div class="special-colum-bar"></div>
-                      {{ item }}
-                    </a>
-                  </li>
-                </ul>
+        <div class='user-body-left'>
+          <div class='aside-block' style="top:10px">
+            <div class='aside-box'>
+              <div class="aside-box-title"> 我的专栏 </div>
+              <div class="aside-box-body">
+                <div class="aside-box-body-content">
+                  <ul>
+                    <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
+                      <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
+                        <div class="special-colum-bar"></div>
+                        {{ item }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
 
-          </div>
-          <div class='aside-box'>
-            <div class="aside-box-title"> 我的专栏 </div>
-            <div class="aside-box-body">
-              <div class="aside-box-body-content">
-                <ul>
-                  <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
-                    <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
-                      <div class="special-colum-bar"></div>
-                      {{ item }}
-                    </a>
-                  </li>
-                </ul>
+            </div>
+            <div class='aside-box'>
+              <div class="aside-box-title"> 我的专栏 </div>
+              <div class="aside-box-body">
+                <div class="aside-box-body-content">
+                  <ul>
+                    <li v-for="item in ['python', 'vue', 'shell', '其他']" :key="item">
+                      <a href="http://" target="_blank" rel="noopener noreferrer" class="aside-box-body-a">
+                        <div class="special-colum-bar"></div>
+                        {{ item }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </div>
 
@@ -227,8 +229,10 @@ export default {
   padding-bottom: 32px;
   margin: 10px auto 0;
 }
-.aside-block {
+.user-body-left {
   width: 280px;
+}
+.aside-block {
   position: sticky;
   /* top: 40px; */
   align-items: start;
