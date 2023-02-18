@@ -1,17 +1,31 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import ArticleEdit from '../views/ArticleEditView.vue'
-import HomeView from '../views/HomeView.vue'
+import ArticleEditView from '@/views/admin/ArticleEditView.vue'
+import ArticleListView from '@/views/home/ArticleListView.vue'
+import ArticleDetailView from '@/views/home/ArticleDetailView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    redirect: '/wsx'
   },
   {
-    path: '/article/edit/:aid',
+    path: '/:author',
+    name: 'author-home',
+    props: true,
+    component: ArticleListView,
+  },
+  {
+    path: '/:author/article/:aid',
+    name: 'article-show',
+    props: true,
+    component: ArticleDetailView
+  },
+  {
+    path: '/:author/article/edit/:aid',
     name: 'article-edit',
-    component: ArticleEdit
+    props: true,
+    component: ArticleEditView
   },
   // {
   //   path: '/about',

@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 40px; margin-top: 5px">
-    <el-row style="line-height: 40px; text-align: center">
+  <div class='edit-header-box'>
+    <el-row class="edit-header-row">
       <el-col :span="2" style="text-align: center">
         <el-button type="danger" round> 文章管理 </el-button>
       </el-col>
@@ -18,30 +18,26 @@
     </div>
 
   </div>
-  <br>
   <!-- md编辑框 -->
-  <md-editor v-model="article.content" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
+  <md-editor v-model="article.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
 </template>
 
-<script lang="ts">
+<script>
 import { reactive, ref } from 'vue'
 import MdEditor from 'md-editor-v3'
+import { get_article } from '@/http/apis'
 
 export default {
-  name: 'HomeView',
+  name: 'ArticleEditView',
   components: { MdEditor },
+  props: ['author', 'aid'],
 
-  setup() {
-    let article = reactive({
-      title: '这是title',
-      content: `
-\`\`\` python
-a = 10
-print('hello world')
-\`\`\`
-    `
+  setup(props) {
+    let article = get_article({
+      author: props.author,
+      aid: props.aid
     })
-
+    console.log(article)
     return { article }
   }
 }
@@ -50,5 +46,16 @@ print('hello world')
 <style>
 .title-ipt {
   width: 100%;
+}
+
+.edit-header-box {
+  height: 60px;
+  background-color: rgb(250, 249, 249);
+}
+
+.edit-header-row {
+  line-height: 40px;
+  text-align: center;
+  padding-top: 10px;
 }
 </style>

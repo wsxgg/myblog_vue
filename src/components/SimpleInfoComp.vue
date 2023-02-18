@@ -30,6 +30,7 @@ export default {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 10px;
+  color: black;
 }
 
 .blog-list-context {
