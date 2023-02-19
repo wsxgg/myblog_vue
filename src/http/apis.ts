@@ -1,4 +1,5 @@
 import $http from './index'
+import { ip } from './index'
 import { ref, reactive } from 'vue'
 
 
@@ -86,7 +87,7 @@ print('hello world')
 }
 
 // 获取专栏列表
-export const get_column_list = () => {
+export const get_column_list = async () => {
   // let { data } = await $http({
   //   method: 'POST',
   //   url: '/api/get_column_list',
@@ -95,8 +96,8 @@ export const get_column_list = () => {
   // console.log(data)
   // return data
 
-  // test
-  return ['python', 'vue', 'shell', '其他']
+  let { data } = await $http.post(ip + '/columnlist', { "name": 'wsx' })
+  return data.columnlist
 }
 
 // 获取推荐列表

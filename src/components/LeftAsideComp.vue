@@ -39,13 +39,18 @@
 <script>
 import { get_column_list, get_recommend_list } from '@/http/apis'
 import { ip } from '@/http/index'
+import { onBeforeMount, ref } from 'vue'
 
 export default {
   name: 'LeftAsideComp',
 
   setup() {
-    let columnList = get_column_list()
+    let columnList = ref('')
     let recommendList = get_recommend_list()
+
+    onBeforeMount(async () => {
+      columnList.value = await get_column_list()
+    })
 
     return { ip, columnList, recommendList }
   }
