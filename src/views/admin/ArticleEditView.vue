@@ -8,14 +8,10 @@
         <el-input @blur="title=$event.target.value.trim()" class='title-ipt' v-model="article.title" placeholder="请输入标题" />
       </el-col>
       <el-col :span="4" style="text-align: center">
-        <el-button round> 保存草靠 </el-button>
-        <el-button type="danger" round> 保存文章 </el-button>
+        <el-button round> 取消编辑 </el-button>
+        <el-button type="danger" round @click="saveArticlePrepare"> 保存文章 </el-button>
       </el-col>
     </el-row>
-
-    <div>
-
-    </div>
 
   </div>
   <!-- md编辑框 -->
@@ -33,11 +29,8 @@ export default {
   props: ['author', 'aid'],
 
   setup(props) {
-    let article = get_article({
-      author: props.author,
-      aid: props.aid
-    })
-    console.log(article)
+    let article = get_article({ author: props.author, aid: props.aid })
+
     return { article }
   }
 }

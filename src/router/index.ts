@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ArticleEditView from '@/views/admin/ArticleEditView.vue'
 import ArticleListView from '@/views/home/ArticleListView.vue'
 import ArticleDetailView from '@/views/home/ArticleDetailView.vue'
+import ArticleCreateView from '@/views/admin/ArticleCreateView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -26,6 +27,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'article-edit',
     props: true,
     component: ArticleEditView
+  },
+  {
+    path: '/:author/article/create',
+    name: 'article-create',
+    props: true,
+    component: ArticleCreateView
   },
   // {
   //   path: '/about',

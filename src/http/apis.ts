@@ -3,10 +3,14 @@ import { ip } from './index'
 import { ref, reactive } from 'vue'
 
 
+
+export const create_article = async (article: Object) => {
+  let { data } = await $http.post(ip + '/create_article', { article: article })
+  return data
+}
+
 // 获取一页文章list
 export const get_article_list = (author: string, page: number = 1, size: number = 5) => {
-
-
   // test
   console.log(author, page, size)
   let result = {
@@ -88,15 +92,8 @@ print('hello world')
 
 // 获取专栏列表
 export const get_column_list = async () => {
-  // let { data } = await $http({
-  //   method: 'POST',
-  //   url: '/api/get_column_list',
-  //   data: {}
-  // })
-  // console.log(data)
-  // return data
-
   let { data } = await $http.post(ip + '/columnlist', { "name": 'wsx' })
+  console.log(data)
   return data.columnlist
 }
 
