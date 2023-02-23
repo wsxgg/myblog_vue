@@ -36,7 +36,9 @@ import { formatDate } from '@/utils/common.js'
 import HeaderComp from '@/components/HeaderComp.vue'
 import SimpleInfoComp from '@/components/SimpleInfoComp.vue'
 import LeftAsideComp from '@/components/LeftAsideComp.vue'
-import { get_article_list } from '@/http/apis'
+import { get_articleList } from '@/http/apis'
+import { ElMessage } from 'element-plus'
+import router from '@/router/index'
 
 export default {
   name: 'HomeView',
@@ -54,9 +56,22 @@ export default {
 
     // 获取一页数据
     const get_more = () => {
-      let res = get_article_list(props.author, meta.page, meta.size)
-      noMore.value = !res.hasnext
-      meta.articleList.push(...res.articleList)
+      get_articleList(props.author, meta.page, meta.size).then(res => {
+        if (res.status != 200) {
+          // TODO 用户不存在， 暂时这么写
+          ElMessage({
+            message: res.msg,
+            type: 'error'
+          })
+          // 转到个人主页
+          setTimeout(() => {
+            router.push('/')
+          }, 1000)
+        } else {
+          noMore.value = !res.hasnext
+          meta.articleList.push(...res.items)
+        }
+      })
     }
 
     //获取当前可视范围的高度

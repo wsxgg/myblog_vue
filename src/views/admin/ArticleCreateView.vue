@@ -8,7 +8,7 @@
         <el-input @blur="articleForm.title=$event.target.value.trim()" class='title-ipt' v-model="articleForm.title" placeholder="请输入标题" />
       </el-col>
       <el-col :span="4" style="text-align: center">
-        <el-button round> 保存草靠 </el-button>
+        <el-button round @click="saveDraftsAction"> 保存草靠 </el-button>
         <el-button type="danger" round @click="saveArticleDialog = true"> 保存文章 </el-button>
       </el-col>
     </el-row>
@@ -46,9 +46,9 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import MdEditor from 'md-editor-v3'
-import { create_article } from '@/http/apis.ts'
+import { create_article, get_draft, save_draft } from '@/http/apis.ts'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index.ts'
 
@@ -67,8 +67,8 @@ export default {
       type: ''
     })
 
+    // 保存文章操作
     const saveArticleAction = () => {
-      // 调用接口保存文章
       create_article(articleForm).then(res => {
         console.log(res)
         if (res.status != 200) {
@@ -89,7 +89,49 @@ export default {
         }
       })
     }
-    return { articleForm, saveArticleDialog, saveArticleAction }
+    // 保存至草稿
+    const saveDraftsAction = () => {
+      save_draft(articleForm).then(res => {
+        console.log(res)
+        if (res.status != 200) {
+          ElMessage({
+            message: res.msg,
+            type: 'error'
+          })
+        } else {
+          ElMessage({
+            message: res.msg,
+            type: 'success'
+          })
+        }
+      })
+    }
+    // 获取草稿
+    const getDraft = () => {
+      get_draft(props.author).then(res => {
+        if (res.status != 200) {
+          // TODO 用户不存在， 暂时这么写
+          ElMessage({
+            message: res.msg,
+            type: 'error'
+          })
+          // 转到个人主页
+          setTimeout(() => {
+            router.push('/')
+          }, 1000)
+        }
+        articleForm.title = res.title
+        articleForm.context = res.context
+      })
+    }
+
+    onMounted(() => {
+      // 获取草稿
+      getDraft()
+      console.log(articleForm)
+    })
+
+    return { articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
   }
 }
 </script>
