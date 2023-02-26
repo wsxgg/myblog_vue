@@ -1,65 +1,55 @@
 import $http from './index'
-import { ip } from './index'
 import { ref, reactive } from 'vue'
+import { pa } from 'element-plus/es/locale'
 
 
+// 登录
+export const login = async (username: string, password: string) => {
+  let { data } = await $http.post('/login', { username: username, password: password })
+  return data
+}
+
+// 注册 
+export const register = async (registerForm: { nickname: string, username: string, password: string, email: string }) => {
+  let { data } = await $http.post('/register', registerForm)
+  return data
+}
 
 // 创建文章
 export const create_article = async (article: Object) => {
-  let { data } = await $http.post(ip + '/create_article', { article: article })
+  let { data } = await $http.post('/create_article', { article: article })
   return data
 }
 
 // 获取文章list
 export const get_articleList = async (author: string, page: Number = 1, size: Number = 4) => {
-  let { data } = await $http.post(ip + '/get_articleList', { author: author, size: size, page: page })
+  let { data } = await $http.post('/get_articleList', { author: author, size: size, page: page })
+  return data
+}
+
+// 获取文章详细  (show & edit))
+export const get_article = async (author: string, aid: number | string) => {
+  let { data } = await $http.post('/get_article', { author: author, aid: aid })
   return data
 }
 
 
 // 获取草稿
 export const get_draft = async (author: string) => {
-  let { data } = await $http.post(ip + '/get_draft', { author: author })
+  let { data } = await $http.post('/get_draft', { author: author })
   return data
 }
 
 // 保存草稿
 export const save_draft = async (draft: Object) => {
-  let { data } = await $http.post(ip + '/save_draft', { draft: draft })
+  let { data } = await $http.post('/save_draft', { draft: draft })
   return data
 }
 
 
-// 获取文章详细  (show & edit))
-export const get_article = (author: string, aid: number | string) => {
-  // let { data } = await $http({
-  //   method: 'POST',
-  //   url: '/api/get_article',
-  //   data: {
-  //     author: author,
-  //     aid: aid
-  //   }
-  // })
-  // console.log(data)
-  // return data
-
-  // test
-  console.log(author, aid)
-  let article = reactive({
-    title: '如何实现词云图',
-    context: `
-\`\`\` python
-a = 10
-print('hello world')
-\`\`\`
-    `
-  })
-  return article
-}
-
 // 获取专栏列表
 export const get_column_list = async () => {
-  let { data } = await $http.post(ip + '/columnlist', { "name": 'wsx' })
+  let { data } = await $http.post('/columnlist', { "name": 'wsx' })
   return data.columnlist
 }
 

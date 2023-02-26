@@ -2,7 +2,7 @@
   <div class='edit-header-box'>
     <el-row class="edit-header-row">
       <el-col :span="2" style="text-align: center">
-        <el-button type="danger" round> 文章管理 </el-button>
+        <el-button type="danger" round @click="router.push(`/${author}`)"> 文章管理 </el-button>
       </el-col>
       <el-col :span="18" style="text-align: center">
         <el-input @blur="articleForm.title=$event.target.value.trim()" class='title-ipt' v-model="articleForm.title" placeholder="请输入标题" />
@@ -131,7 +131,7 @@ export default {
       console.log(articleForm)
     })
 
-    return { articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
+    return { router, articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
   }
 }
 </script>

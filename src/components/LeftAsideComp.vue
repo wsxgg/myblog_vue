@@ -94,7 +94,7 @@ export default {
   box-sizing: border-box;
   display: block;
 }
-.aside-box-body-a {
+.aside-box-body a {
   text-decoration: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -111,7 +111,7 @@ export default {
   overflow: hidden;
   position: relative;
 }
-.aside-box-body-a:hover {
+.aside-box-body a:hover {
   color: red;
 }
 .special-colum-bar {

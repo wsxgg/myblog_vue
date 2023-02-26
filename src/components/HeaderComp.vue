@@ -1,15 +1,23 @@
 <template>
   <div class='user-header'>
-    <el-row>
+    <el-row style="height: 100%">
       <el-col :span="4" style="padding-left:30px;">
         <el-avatar shape="circle" :size="100" fit="cover" :src="url" class="avatar">
         </el-avatar>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="16">
         <div class="brief-infomation">
           庞眉书客感秋蓬, 谁知死草生华风。
           <br>
           我今垂翅附冥鸿, 他日不羞蛇作龙。
+        </div>
+
+      </el-col>
+      <el-col :span="4">
+        <div v-if="author">
+          <el-button type="danger" round class='publish-but' @click="router.push(`/${author}/article/create`)"><el-icon>
+              <Plus />
+            </el-icon>&nbsp;&nbsp;发布</el-button>
         </div>
 
       </el-col>
@@ -20,12 +28,15 @@
 <script>
 import { ref, reactive } from 'vue'
 import url from '../assets/a.jpeg'
+import router from '@/router/index'
+
 export default {
   name: 'HeaderComp',
+  props: ['author'],
 
-  setup() {
-    // let url = ''
-    return { url }
+  setup(props) {
+    let author = props.author
+    return { url, author, router }
   }
 }
 </script>
@@ -47,5 +58,11 @@ export default {
 .avatar {
   margin-top: -15px;
   border: 4px solid white;
+}
+
+.publish-but {
+  margin-top: 110px;
+  margin-left: 80px;
+  width: 100px;
 }
 </style>

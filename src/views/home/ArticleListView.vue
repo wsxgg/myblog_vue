@@ -1,9 +1,9 @@
 <template>
-  <div class="common-layout">
+  <div class="article-list-box">
     <img src="../../assets/title.gif" alt="" class="header-img" style="width:100%;padding-top:20px">
     <div class='container'>
 
-      <HeaderComp></HeaderComp>
+      <HeaderComp :author="author"></HeaderComp>
 
       <div class="user-body">
         <LeftAsideComp></LeftAsideComp>
@@ -13,7 +13,7 @@
           <ul>
             <li v-for="item in meta.articleList" :key='item.id' style="list-style-type:none">
               <el-divider />
-              <a :href="`${ip}/${item.author}/article/${item.id}`" target="_blank" rel="noopener noreferrer" style="text-decoration: none">
+              <a :href="`/${item.author}/article/${item.id}`" target="_blank" rel="noopener noreferrer" style="text-decoration: none">
                 <SimpleInfoComp :title="item.title" :context="item.context" :ctime="formatDate(item.ctime)" :type="item.type"></SimpleInfoComp>
               </a>
 
@@ -46,6 +46,7 @@ export default {
   props: ['author'],
 
   setup(props) {
+    let author = props.author
     let meta = reactive({
       articleList: [],
       page: 1,
@@ -64,9 +65,7 @@ export default {
             type: 'error'
           })
           // 转到个人主页
-          setTimeout(() => {
-            router.push('/')
-          }, 1000)
+          router.push('/')
         } else {
           noMore.value = !res.hasnext
           meta.articleList.push(...res.items)
@@ -136,18 +135,22 @@ export default {
       window.removeEventListener('scroll', windowScroll) //销毁滚动事件
     })
 
-    return { ip, meta, loading, noMore, formatDate }
+    return { ip, meta, loading, noMore, author, formatDate }
   }
 }
 </script>
 
 <style scoped>
+.article-list-box {
+  background-image: url('@/assets/bg.gif');
+}
+
 .navList-box {
   background-color: white;
   border-radius: 4px;
   margin-left: 6px;
   flex: 1;
-  /* width: 300px; */
+  width: 300px;
 }
 
 .user-body {

@@ -3,12 +3,25 @@ import ArticleEditView from '@/views/admin/ArticleEditView.vue'
 import ArticleListView from '@/views/home/ArticleListView.vue'
 import ArticleDetailView from '@/views/home/ArticleDetailView.vue'
 import ArticleCreateView from '@/views/admin/ArticleCreateView.vue'
+import LoginView from '@/views/home/LoginView.vue'
+import RegisterView from '@/views/home/RegisterView.vue'
+import HomePageView from '@/views/home/HomePageView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    redirect: '/wsx'
+    component: HomePageView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
   },
   {
     path: '/:author',
