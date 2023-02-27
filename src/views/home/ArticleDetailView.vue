@@ -52,7 +52,7 @@ export default {
         } else {
           console.log(res)
           ElMessage.error(res.msg)
-          // 转到个人主页
+          // 转到主页
           setTimeout(() => {
             router.push('/')
           }, 1000)
