@@ -38,7 +38,7 @@ export default {
       login(loginForm.username, loginForm.password).then(res => {
         console.log
         if (res.status == 200) {
-          localStorage.setItem('token', 'testsimon')
+          localStorage.setItem('token', res.data.token)
           router.push(`/${res.data.username}`)
         } else {
           ElMessage.error(res.msg)

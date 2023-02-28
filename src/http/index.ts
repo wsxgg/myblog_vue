@@ -19,8 +19,14 @@ $http.interceptors.request.use((require) => {
 })
 
 $http.interceptors.response.use((response) => {
+  console.log(response)
   if (response.status == 401) {
+    // token失效
     router.push('/login')
+  } else if (response.status == 403) {
+    // token用户不对
+    console.log(response)
+    router.push(`/${response.data}`)
   }
   return response
 }, (error) => {
