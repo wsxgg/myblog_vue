@@ -30,5 +30,6 @@ export default {
 <style scoped>
 .homepage-box {
   text-align: center;
+  height: 95.5vh;
 }
 </style>

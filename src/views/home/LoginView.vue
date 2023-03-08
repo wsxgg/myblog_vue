@@ -1,22 +1,23 @@
-<template>
-  <div class="login-box">
-    <div class='login-div' @keydown.enter.prevent="loginFunc">
+<template>\
+  <div style="height:94vh">
+    <div class="login-box">
+      <div class='login-div' @keydown.enter.prevent="loginFunc">
 
-      <el-form label-width="50px" :model="loginForm" style="max-width: 460px" class="login-form">
-        <div class="login-title"> 登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录 </div>
-        <el-form-item label="账 号: " class="login-label">
-          <el-input v-model="loginForm.username" class="login-input" />
-          <!-- <el-input v-model="formLabelAlign.access_code" class="login-input" /> -->
-        </el-form-item>
-        <el-form-item label="密 码: " class="login-label">
-          <el-input v-model="loginForm.password" type="password" class="login-input" show-password />
-          <!-- <el-input v-model="formLabelAlign.access_code" class="login-input" /> -->
-        </el-form-item>
-        <el-button type="primary" round class="login-btn" @click="loginFunc"> 登陆 </el-button>
-      </el-form>
+        <el-form label-width="50px" :model="loginForm" style="max-width: 460px" class="login-form">
+          <div class="login-title"> 登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录 </div>
+          <el-form-item label="账 号: " class="login-label">
+            <el-input v-model="loginForm.username" class="login-input" />
+            <!-- <el-input v-model="formLabelAlign.access_code" class="login-input" /> -->
+          </el-form-item>
+          <el-form-item label="密 码: " class="login-label">
+            <el-input v-model="loginForm.password" type="password" class="login-input" show-password />
+            <!-- <el-input v-model="formLabelAlign.access_code" class="login-input" /> -->
+          </el-form-item>
+          <el-button type="primary" round class="login-btn" @click="loginFunc"> 登陆 </el-button>
+        </el-form>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -36,10 +37,11 @@ export default {
 
     const loginFunc = () => {
       login(loginForm.username, loginForm.password).then(res => {
-        console.log
+        console.log(res)
         if (res.status == 200) {
           localStorage.setItem('token', res.data.token)
-          router.push(`/${res.data.username}`)
+          localStorage.setItem('userinfo', JSON.stringify(res.data.userinfo))
+          router.push(`/${res.data.userinfo.username}`)
         } else {
           ElMessage.error(res.msg)
           loginForm.password = ''

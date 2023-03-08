@@ -1,4 +1,5 @@
 <template>
+  <Header></Header>
   <div class="article-list-box">
     <img src="../../assets/title.gif" alt="" class="header-img" style="width:100%;padding-top:20px">
     <div class='container'>
@@ -6,11 +7,10 @@
       <HeaderComp :author="author"></HeaderComp>
 
       <div class="user-body">
-        <LeftAsideComp></LeftAsideComp>
-
+        <LeftAsideComp :author='author'></LeftAsideComp>
         <div class="navList-box">
           <!-- article列表 -->
-          <ul>
+          <ul style="padding-right: 40px">
             <li v-for="item in meta.articleList" :key='item.id' style="list-style-type:none">
               <el-divider />
               <a :href="`/${item.author}/article/${item.id}`" target="_blank" rel="noopener noreferrer" style="text-decoration: none">
@@ -18,12 +18,12 @@
               </a>
 
             </li>
+            <div v-loading="loading" element-loading-text='Loading...'></div>
+            <el-divider v-if="noMore" border-style="dashed"> <span style="color: rgb(21, 80, 168)"> no more </span> </el-divider>
+
           </ul>
-          <p v-if="loading" style="text-align: center">Loading...</p>
-          <p v-if="noMore" style="text-align: center">No more</p>
         </div>
       </div>
-      <el-footer></el-footer>
     </div>
   </div>
 
@@ -33,43 +33,45 @@
 import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { ip } from '@/http/index'
 import { formatDate } from '@/utils/common.js'
+import Header from '@/components/Header.vue'
 import HeaderComp from '@/components/HeaderComp.vue'
 import SimpleInfoComp from '@/components/SimpleInfoComp.vue'
 import LeftAsideComp from '@/components/LeftAsideComp.vue'
 import { get_articleList } from '@/http/apis'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElLoading } from 'element-plus'
 import router from '@/router/index'
 
 export default {
   name: 'HomeView',
-  components: { HeaderComp, SimpleInfoComp, LeftAsideComp },
+  components: { HeaderComp, SimpleInfoComp, LeftAsideComp, Header },
   props: ['author'],
 
   setup(props) {
     let author = props.author
+    let type = router.currentRoute.value.query.type
     let meta = reactive({
       articleList: [],
       page: 1,
       size: 5
     })
     const noMore = ref(false)
-    const loading = ref(false)
+    const loading = ref(true)
 
     // 获取一页数据
-    const get_more = () => {
-      get_articleList(props.author, meta.page, meta.size).then(res => {
+    const get_more = async (author, page, size, type) => {
+      await get_articleList(author, page, size, type).then(res => {
         if (res.status != 200) {
-          // TODO 用户不存在， 暂时这么写
           ElMessage({
             message: res.msg,
             type: 'error'
           })
-          // 转到个人主页
-          router.push('/')
+          // 返回上一级页面
+          router.go(-1)
         } else {
-          noMore.value = !res.hasnext
+          noMore.value = !res.has_next
           meta.articleList.push(...res.items)
         }
+        loading.value = false
       })
     }
 
@@ -103,6 +105,7 @@ export default {
       var scrollTop = getScrollTop()
       var clientHeight = getClientHeight()
       var scrollHeight = getScrollHeight()
+      // console.log(scrollTop, clientHeight, scrollHeight)
       //如果满足公式则，确实到底了
       if (scrollTop + clientHeight == scrollHeight) {
         //发送异步请求请求数据，同时携带offset并自增offset
@@ -112,21 +115,12 @@ export default {
           loading.value = true
           meta.page += 1
           get_more()
-
-          // let tmp = setTimeout(() => {
-          //   let tmp = meta.articleList
-          //   meta.articleList.push(...tmp)
-          //   loading.value = false
-          //   if (meta.articleList.length > 20) {
-          //     noMore.value = true
-          //   }
-          // }, 2000)
         }
       }
     }
     onMounted(() => {
       // 获取一页数据
-      get_more()
+      get_more(props.author, meta.page, meta.size, type)
 
       // 监听页面滚动
       window.addEventListener('scroll', windowScroll, true) //监听页面滚动

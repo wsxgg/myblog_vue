@@ -1,32 +1,34 @@
 <template>
-  <div class="register-box">
-    <div class='register-div' @keydown.enter.prevent="registerFunc">
+  <div style="height:95.8vh">
+    <div class="register-box">
+      <div class='register-div' @keydown.enter.prevent="registerFunc">
 
-      <el-form label-position="right" label-width="90px" ref="ruleFormRef" :rules="rules" :model="registerForm" class="register-form">
-        <div class="register-title"> 注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册 </div>
-        <el-form-item label="&nbsp;昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称&nbsp;: " prop="nickname" class="register-label">
-          <el-input v-model="registerForm.nickname" />
-        </el-form-item>
-        <el-form-item label="&nbsp;账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp;: " prop="username" class="register-label">
-          <el-input v-model="registerForm.username" class="register-input" />
-          <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
-        </el-form-item>
-        <el-form-item label="&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;: " prop="password" class="register-label">
-          <el-input v-model="registerForm.password" type="password" class="register-input" show-password />
-          <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
-        </el-form-item>
-        <el-form-item label="重复密码: " prop="repassword" class="register-label">
-          <el-input v-model="registerForm.repassword" type="repassword" class="register-input" show-password />
-          <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
-        </el-form-item>
-        <el-form-item label="&nbsp;邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件&nbsp;: " prop="email" class="register-label">
-          <el-input v-model="registerForm.email" />
-        </el-form-item>
-        <el-form-item label="&nbsp;介&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绍&nbsp;: " prop="production" class="register-label">
-          <el-input v-model="registerForm.production" type="textarea" maxlength=255 />
-        </el-form-item>
-        <el-button round class="register-btn" @click="registerFunc(ruleFormRef)"> 注册 </el-button>
-      </el-form>
+        <el-form label-position="right" label-width="90px" ref="ruleFormRef" :rules="rules" :model="registerForm" class="register-form">
+          <div class="register-title"> 注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册 </div>
+          <el-form-item label="&nbsp;昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称&nbsp;: " prop="nickname" class="register-label">
+            <el-input v-model="registerForm.nickname" />
+          </el-form-item>
+          <el-form-item label="&nbsp;账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp;: " prop="username" class="register-label">
+            <el-input v-model="registerForm.username" class="register-input" />
+            <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
+          </el-form-item>
+          <el-form-item label="&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;: " prop="password" class="register-label">
+            <el-input v-model="registerForm.password" type="password" class="register-input" show-password />
+            <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
+          </el-form-item>
+          <el-form-item label="重复密码: " prop="repassword" class="register-label">
+            <el-input v-model="registerForm.repassword" type="repassword" class="register-input" show-password />
+            <!-- <el-input v-model="formLabelAlign.access_code" class="register-input" /> -->
+          </el-form-item>
+          <el-form-item label="&nbsp;邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件&nbsp;: " prop="email" class="register-label">
+            <el-input v-model="registerForm.email" />
+          </el-form-item>
+          <el-form-item label="&nbsp;介&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绍&nbsp;: " prop="production" class="register-label">
+            <el-input v-model="registerForm.production" type="textarea" maxlength=255 />
+          </el-form-item>
+          <el-button round class="register-btn" @click="registerFunc(ruleFormRef)"> 注册 </el-button>
+        </el-form>
+      </div>
     </div>
   </div>
 
@@ -99,6 +101,7 @@ export default {
         if (valid) {
           register(registerForm).then(res => {
             if (res.status == 200) {
+              ElMessage.success(res.msg)
               router.push('/login')
             } else {
               ElMessage.error(res.msg)

@@ -2,3 +2,7 @@
   --el-header-padding: 0 0;
   --el-header-height: 160px;
 }
+
+.el-loading-spinner {
+  padding-top: 50px;
+}

@@ -21,9 +21,7 @@
           </el-form-item>
           <el-form-item label="文章类别: ">
             <el-radio-group v-model="articleForm.type">
-              <el-radio label="python" />
-              <el-radio label="vue" />
-              <el-radio label="shell" />
+              <el-radio v-for="item in types" :key="item.id" :label="item.name" />
             </el-radio-group>
           </el-form-item>
 
@@ -48,7 +46,7 @@
 <script>
 import { onMounted, reactive, ref } from 'vue'
 import MdEditor from 'md-editor-v3'
-import { create_article, get_draft, save_draft } from '@/http/apis.ts'
+import { create_article, get_draft, save_draft, get_author } from '@/http/apis.ts'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index.ts'
 
@@ -66,6 +64,7 @@ export default {
       context: '',
       type: ''
     })
+    let types = ref('')
 
     // 保存文章操作
     const saveArticleAction = () => {
@@ -124,14 +123,26 @@ export default {
         articleForm.context = res.context
       })
     }
+    // 获取文章类型们
+    const getTypes = () => {
+      get_author(props.author).then(res => {
+        if (res.status == 200) {
+          types.value = res.data.types
+        } else {
+          ElMessage.error('加载专栏列表失败: ' + res.msg)
+        }
+      })
+    }
 
     onMounted(() => {
       // 获取草稿
       getDraft()
-      console.log(articleForm)
+
+      // 获取文章类型
+      getTypes()
     })
 
-    return { router, articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
+    return { router, types, articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
   }
 }
 </script>

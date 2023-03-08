@@ -6,6 +6,7 @@ import ArticleCreateView from '@/views/admin/ArticleCreateView.vue'
 import LoginView from '@/views/home/LoginView.vue'
 import RegisterView from '@/views/home/RegisterView.vue'
 import HomePageView from '@/views/home/HomePageView.vue'
+import NotFoundView from '@/views/home/404View.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -55,6 +56,10 @@ const routes: Array<RouteRecordRaw> = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   // }
+  {
+    path: "/:pathMatch(.*)",
+    component: NotFoundView
+  },
 ]
 
 const router = createRouter({
