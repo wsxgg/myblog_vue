@@ -15,11 +15,6 @@ export const register = async (registerForm: { nickname: string, username: strin
   return data
 }
 
-// // 判断是否登陆
-// export const if_login = async () => {
-//   let { data } = await $http.get('/loginstatus')
-//   return data
-// }
 
 // 获取用户信息
 export const get_author = async (username: string) => {
@@ -44,7 +39,16 @@ export const create_article = async (article: { author: string, title: string, c
     url: `/${article.author}/article`,
     data: { article: article }
   })
-  // let { data } = await $http.post('/create_article', { article: article })
+  return data
+}
+
+// 更新文章
+export const update_article = async (aid: number, author: string, title: string, context: string, type: string) => {
+  let { data } = await $http({
+    method: "PUT",
+    url: `/${author}/article/${aid}`,
+    data: { aid: aid, author: author, title: title, context: context, type: type }
+  })
   return data
 }
 
@@ -89,11 +93,11 @@ export const get_draft = async (username: string) => {
 }
 
 // 保存草稿
-export const save_draft = async (draft: { author: string, title: string, context: string, tyoe: string }) => {
+export const save_draft = async (author: string, title: string, context: string) => {
   let { data } = await $http({
     method: "PUT",
-    url: `/${draft.author}/draft`,
-    data: { draft: draft }
+    url: `/${author}/draft`,
+    data: { author: author, title: title, context: context }
   })
   // let { data } = await $http.post('/save_draft', { draft: draft })
   return data

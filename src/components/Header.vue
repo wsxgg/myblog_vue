@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="16">
         <div class="todo">
-          <span v-view="if_login"> Hi~ 欢迎尊贵的用户 {{ userinfo.nickname }} 进入博客 </span>
+          <span v-if="if_login"> Hi~ 欢迎尊贵的用户 {{ userinfo.nickname }} 进入博客 </span>
           <span v-if="!if_login"> 游客账户，还未登录哦~ </span>
         </div>
       </el-col>

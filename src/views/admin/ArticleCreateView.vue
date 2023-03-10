@@ -1,46 +1,49 @@
 <template>
-  <div class='edit-header-box'>
-    <el-row class="edit-header-row">
-      <el-col :span="2" style="text-align: center">
-        <el-button type="danger" round @click="router.push(`/${author}`)"> 文章管理 </el-button>
-      </el-col>
-      <el-col :span="18" style="text-align: center">
-        <el-input @blur="articleForm.title=$event.target.value.trim()" class='title-ipt' v-model="articleForm.title" placeholder="请输入标题" />
-      </el-col>
-      <el-col :span="4" style="text-align: center">
-        <el-button round @click="saveDraftsAction"> 保存草靠 </el-button>
-        <el-button type="danger" round @click="saveArticleDialog = true"> 保存文章 </el-button>
-      </el-col>
-    </el-row>
+  <div style="height:96vh">
+    <div class='edit-header-box'>
+      <el-row class="edit-header-row">
+        <el-col :span="2" style="text-align: center">
+          <el-button type="danger" round @click="router.push(`/${author}`)"> 文章管理 </el-button>
+        </el-col>
+        <el-col :span="18" style="text-align: center">
+          <el-input @blur="articleForm.title=$event.target.value.trim()" class='title-ipt' v-model="articleForm.title" placeholder="请输入标题" />
+        </el-col>
+        <el-col :span="4" style="text-align: center">
+          <el-button round @click="saveDraftsAction"> 保存草靠 </el-button>
+          <el-button type="danger" round @click="saveArticleDialog = true"> 保存文章 </el-button>
+        </el-col>
+      </el-row>
 
-    <el-dialog v-model="saveArticleDialog" title="保存文章" width="40%">
-      <div>
-        <el-form :model="articleForm" label-width="120px">
-          <el-form-item label="文章标题: ">
-            <el-input v-model="articleForm.title" />
-          </el-form-item>
-          <el-form-item label="文章类别: ">
-            <el-radio-group v-model="articleForm.type">
-              <el-radio v-for="item in types" :key="item.id" :label="item.name" />
-            </el-radio-group>
-          </el-form-item>
-
-        </el-form>
-      </div>
-
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="saveArticleDialog = false">取消</el-button>
-          <el-button type="primary" @click="saveArticleAction">
-            保存
-          </el-button>
-        </span>
-      </template>
-    </el-dialog>
+    </div>
+    <!-- md编辑框 -->
+    <md-editor v-model="articleForm.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
 
   </div>
-  <!-- md编辑框 -->
-  <md-editor v-model="articleForm.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
+
+  <!-- 保存文章 弹框 -->
+  <el-dialog v-model="saveArticleDialog" title="保存文章" width="40%">
+    <div>
+      <el-form :model="articleForm" label-width="120px">
+        <el-form-item label="文章标题: ">
+          <el-input v-model="articleForm.title" />
+        </el-form-item>
+        <el-form-item label="文章类别: ">
+          <el-radio-group v-model="articleForm.type">
+            <el-radio v-for="item in types" :key="item.id" :label="item.name" />
+          </el-radio-group>
+        </el-form-item>
+
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="saveArticleDialog = false">取消</el-button>
+        <el-button type="primary" @click="saveArticleAction">
+          保存
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -64,7 +67,6 @@ export default {
       context: '',
       type: ''
     })
-    let types = ref('')
 
     // 保存文章操作
     const saveArticleAction = () => {
@@ -90,7 +92,7 @@ export default {
     }
     // 保存至草稿
     const saveDraftsAction = () => {
-      save_draft(articleForm).then(res => {
+      save_draft(articleForm.author, articleForm.title, articleForm.context).then(res => {
         console.log(res)
         if (res.status != 200) {
           ElMessage({
@@ -124,6 +126,7 @@ export default {
       })
     }
     // 获取文章类型们
+    let types = ref('')
     const getTypes = () => {
       get_author(props.author).then(res => {
         if (res.status == 200) {

@@ -42,7 +42,7 @@ import { ElMessage, ElLoading } from 'element-plus'
 import router from '@/router/index'
 
 export default {
-  name: 'HomeView',
+  name: 'ArticleListView',
   components: { HeaderComp, SimpleInfoComp, LeftAsideComp, Header },
   props: ['author'],
 

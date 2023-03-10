@@ -1,6 +1,7 @@
 <template>
   <div>
     <router-view />
+
     <footer class='footer'> footer </footer>
   </div>
 

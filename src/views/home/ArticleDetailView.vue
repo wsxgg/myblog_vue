@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div v-if="if_owner" class="operating">
-                <a :href="`/${article.uaername}/article/edit/${article.id}`" target="_blank" rel="noopener noreferrer"> 编辑 </a>
+                <a :href="`/${article.author}/article/edit/${article.id}`" target="_blank" rel="noopener noreferrer"> 编辑 </a>
                 <el-divider direction="vertical" />
                 <a href="http://" @click.prevent="DeleteArticleDialogVisable=true"> 删除 </a>
               </div>
