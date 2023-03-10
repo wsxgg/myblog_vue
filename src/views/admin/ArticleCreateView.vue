@@ -16,7 +16,7 @@
 
     </div>
     <!-- md编辑框 -->
-    <md-editor v-model="articleForm.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
+    <md-editor v-model="articleForm.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber @onSave='saveArticleDialog = true' @onUploadImg="onUploadImg" />
 
   </div>
 
@@ -49,9 +49,10 @@
 <script>
 import { onMounted, reactive, ref } from 'vue'
 import MdEditor from 'md-editor-v3'
-import { create_article, get_draft, save_draft, get_author } from '@/http/apis.ts'
+import { create_article, get_draft, save_draft, get_author } from '@/http/apis'
 import { ElMessage } from 'element-plus'
-import router from '@/router/index.ts'
+import router from '@/router/index'
+import $http from '@/http/index'
 
 export default {
   name: 'ArticleEditView',
@@ -137,15 +138,43 @@ export default {
       })
     }
 
+    // md-editor-v3 上传图片
+    const onUploadImg = async (files, callback) => {
+      console.log(files)
+      const res = await Promise.all(
+        files.map(file => {
+          return new Promise((rev, rej) => {
+            const form = new FormData()
+            form.append('file', file)
+            console.log(form)
+
+            $http
+              .post('/img', form, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(res => rev(res))
+              .catch(error => rej(error))
+          })
+        })
+      )
+
+      callback(res.map(item => item.data.url))
+    }
+
     onMounted(() => {
       // 获取草稿
       getDraft()
 
       // 获取文章类型
       getTypes()
+
+      // md-editor-v3的监听
+      // editorRef.value?.on('catalog', console.log)
     })
 
-    return { router, types, articleForm, saveArticleDialog, saveArticleAction, saveDraftsAction }
+    return { router, types, articleForm, saveArticleDialog, onUploadImg, saveArticleAction, saveDraftsAction }
   }
 }
 </script>
