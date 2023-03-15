@@ -156,6 +156,7 @@ export default {
   border-radius: 4px;
   flex: 1;
   margin-left: 2px;
+  width: 1020px;
 }
 
 .article-header-box {

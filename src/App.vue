@@ -16,6 +16,7 @@
   /* background-color: grey; */
   height: 100%;
   font-size: 14px;
+  width: 1920px;
 }
 * {
   margin: 0;

@@ -16,7 +16,7 @@
 
     </div>
     <!-- md编辑框 -->
-    <md-editor v-model="articleForm.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber @onSave='saveArticleDialog = true' @onUploadImg="onUploadImg" />
+    <md-editor v-model="articleForm.context" preview-theme="github" style="height: 850px" :table-shape="[8, 8]" showCodeRowNumber @onSave='saveArticleDialog = true' @onUploadImg="onUploadImg" />
 
   </div>
 
@@ -140,16 +140,16 @@ export default {
 
     // md-editor-v3 上传图片
     const onUploadImg = async (files, callback) => {
-      console.log(files)
+      // console.log(files)
       const res = await Promise.all(
         files.map(file => {
           return new Promise((rev, rej) => {
             const form = new FormData()
-            form.append('file', file)
+            form.append('img', file)
             console.log(form)
 
             $http
-              .post('/img', form, {
+              .post('/img/upload', form, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
@@ -159,6 +159,7 @@ export default {
           })
         })
       )
+      console.log(res)
 
       callback(res.map(item => item.data.url))
     }
@@ -169,9 +170,6 @@ export default {
 
       // 获取文章类型
       getTypes()
-
-      // md-editor-v3的监听
-      // editorRef.value?.on('catalog', console.log)
     })
 
     return { router, types, articleForm, saveArticleDialog, onUploadImg, saveArticleAction, saveDraftsAction }

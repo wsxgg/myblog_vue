@@ -1,7 +1,7 @@
 import router from '@/router'
 import axios from 'axios'
 
-// export const ip = "http://114.117.188.116:7002"
+// export const ip = "http://123.60.133.32:8098/blog"
 export const ip = "http://127.0.0.1:5000/blog"
 
 const $http = axios.create({
