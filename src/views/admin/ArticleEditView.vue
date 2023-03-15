@@ -16,7 +16,9 @@
 
     </div>
     <!-- md编辑框 -->
-    <md-editor v-model="article.context" preview-theme="github" style="height: 800px" :table-shape="[8, 8]" showCodeRowNumber />
+    <!-- <md-editor v-model="article.context" preview-theme="github" style="height: 850px" :table-shape="[8, 8]" showCodeRowNumber @onSave='saveArticleDialog = true' @onUploadImg="onUploadImg" /> -->
+    <md-editor v-model="article.context" preview-theme="github" style="height: 850px" :table-shape="[8, 8]" showCodeRowNumber @onSave='saveArticleDialog = true' @onUploadImg="onUploadImg" />
+
   </div>
   <!-- 保存文章 弹框 -->
   <el-dialog v-model="saveArticleDialog" title="保存文章" width="40%">
@@ -50,6 +52,7 @@ import MdEditor from 'md-editor-v3'
 import { get_article, update_article } from '@/http/apis'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index'
+import $http from '@/http/index'
 
 export default {
   name: 'ArticleEditView',
@@ -78,6 +81,32 @@ export default {
       })
     }
 
+    // md-editor-v3 上传图片
+    const onUploadImg = async (files, callback) => {
+      // console.log(files)
+      const res = await Promise.all(
+        files.map(file => {
+          return new Promise((rev, rej) => {
+            const form = new FormData()
+            form.append('img', file)
+            console.log(form)
+
+            $http
+              .post('/img/upload', form, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(res => rev(res))
+              .catch(error => rej(error))
+          })
+        })
+      )
+      console.log(res)
+
+      callback(res.map(item => item.data.url))
+    }
+
     onBeforeMount(() => {
       // 获取编辑文章
       get_article(props.author, props.aid).then(res => {
@@ -91,7 +120,7 @@ export default {
       })
     })
 
-    return { article, userinfo, saveArticleDialog, saveArticleAction }
+    return { article, userinfo, saveArticleDialog, saveArticleAction, onUploadImg }
   }
 }
 </script>
