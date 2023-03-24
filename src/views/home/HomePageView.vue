@@ -24,6 +24,7 @@ export default {
   components: { Header },
 
   setup() {
+    document.title = 'simblog'
     return { router }
   }
 }

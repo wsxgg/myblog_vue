@@ -57,6 +57,8 @@ export default {
     const noMore = ref(false)
     const loading = ref(true)
 
+    document.title = 'simblog-' + author + '-主页'
+
     // 获取一页数据
     const get_more = async (author, page, size, type) => {
       await get_articleList(author, page, size, type).then(res => {

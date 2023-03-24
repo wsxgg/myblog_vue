@@ -30,6 +30,7 @@ export default {
   name: 'LoginView',
 
   setup() {
+    document.title = 'simblog-登录'
     let loginForm = reactive({
       username: '',
       password: ''

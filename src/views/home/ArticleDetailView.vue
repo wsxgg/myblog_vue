@@ -90,6 +90,8 @@ export default {
     let article = ref('')
     let author = props.author
 
+    document.title = 'simblog-'
+
     // 判断是否是本人用户
     let if_owner = ref(false)
     if (JSON.parse(localStorage.getItem('userinfo')) === null) {
@@ -118,6 +120,7 @@ export default {
       get_article(props.author, props.aid).then(res => {
         if (res.status == 200) {
           article.value = res.data
+          document.title = 'simblog-' + article.value.title
         } else {
           ElMessage.error(res.msg)
           // 转到上一级页面

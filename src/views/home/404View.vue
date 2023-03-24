@@ -1,7 +1,5 @@
 <template>
   <div class='notfound'>
-
-    <title>幽灵404页面 - qian.blue</title>
     <div class="box">
       <div class="box__ghost">
         <div class="symbol"></div>
@@ -55,6 +53,8 @@ export default {
     let mouseX = 0
     let Axis = reactive({ x: 0, y: 0 })
     let transform = ref(0)
+
+    document.title = 'simblog-404'
 
     document.onmousemove = event => {
       mouseY = event.screenY

@@ -45,6 +45,7 @@ export default {
   name: 'registerView',
 
   setup() {
+    document.title = 'simblog-注册'
     let registerForm = reactive({
       nickname: '',
       username: '',
