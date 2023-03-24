@@ -1,16 +1,16 @@
 <template>
   <div class="header">
     <el-row>
-      <el-col :span="4">
+      <el-col :span="8">
         <div class="logo"><a href="/" style="text-decoration: none;"><img src="" alt="">这里是logo,但还没想好</a></div>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="8">
         <div class="todo">
           <span v-if="if_login"> Hi~ 欢迎尊贵的用户 {{ userinfo.nickname }} 进入博客 </span>
           <span v-if="!if_login"> 游客账户，还未登录哦~ </span>
         </div>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="8">
         <div class="status">
           <div v-if="if_login">
             <div>
@@ -69,6 +69,7 @@ export default {
 
 <style scoped>
 .header {
+  min-width: 800px;
   z-index: 100;
   height: 48px;
   line-height: 48px;
@@ -89,6 +90,11 @@ export default {
 
 .todo {
   text-align: center;
+}
+
+.status {
+  float: right;
+  margin-right: 30px;
 }
 
 .status div * {

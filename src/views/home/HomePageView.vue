@@ -1,11 +1,11 @@
 <template>
+  <Header></Header>
+
   <div class="homepage-box">
     <h1>首页</h1>
     <br>
     <br>
-
     <h2>广告位招租</h2>
-
     <br>
     <br>
 
@@ -17,9 +17,11 @@
 
 <script>
 import router from '@/router/index'
+import Header from '@/components/Header.vue'
 
 export default {
   name: 'HomePageView',
+  components: { Header },
 
   setup() {
     return { router }
@@ -30,6 +32,7 @@ export default {
 <style scoped>
 .homepage-box {
   text-align: center;
-  height: 95.5vh;
+  height: 87vh;
+  margin-top: 40px;
 }
 </style>

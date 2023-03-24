@@ -1,11 +1,24 @@
 <template>
   <div>
-    <router-view />
+    <router-view :style="`width: ${width}px;height: ${height}px`" />
 
-    <footer class='footer'> footer </footer>
+    <footer class='footer'> <a href="https://beian.miit.gov.cn/"> 苏ICP备20025058号-1 </a> </footer>
   </div>
 
 </template>
+
+<script>
+import { computed } from 'vue'
+
+export default {
+  setup() {
+    let width = computed(() => document.documentElement.clientWidth)
+    let height = computed(() => document.documentElement.clientHeight)
+
+    return { width, height }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -16,7 +29,7 @@
   /* background-color: grey; */
   height: 100%;
   font-size: 14px;
-  width: 1920px;
+  /* width: 1920px; */
 }
 * {
   margin: 0;

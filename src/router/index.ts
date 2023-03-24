@@ -7,19 +7,19 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    meta: { title: 'blog--首页' },
+    meta: { title: 'simblog--首页' },
     component: () => import('@/views/home/HomePageView.vue'),
   },
   {
     path: '/login',
     name: 'login',
-    meta: { title: 'blog--登录' },
+    meta: { title: 'simblog--登录' },
     component: () => import('@/views/home/LoginView.vue'),
   },
   {
     path: '/register',
     name: 'register',
-    meta: { title: 'blog--注册' },
+    meta: { title: 'simblog--注册' },
     component: () => import('@/views/home/RegisterView.vue'),
   },
 
@@ -27,28 +27,28 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/:author',
     name: 'author-home',
-    meta: { title: 'blog-' },
+    meta: { title: 'simblog-' },
     props: true,
     component: () => import('@/views/home/ArticleListView.vue'),
   },
   {
     path: '/:author/article/:aid',
     name: 'article-show',
-    meta: { title: 'blog-' },
+    meta: { title: 'simblog-' },
     props: true,
     component: () => import('@/views/home/ArticleDetailView.vue')
   },
   {
     path: '/:author/article/edit/:aid',
     name: 'article-edit',
-    meta: { requireOwner: true, title: 'blog-编辑' },
+    meta: { requireOwner: true, title: 'simblog-编辑' },
     props: true,
     component: () => import('@/views/admin/ArticleEditView.vue')
   },
   {
     path: '/:author/article/create',
     name: 'article-create',
-    meta: { requireOwner: true, title: 'blog-新建' },
+    meta: { requireOwner: true, title: 'simblog-新建' },
     props: true,
     component: () => import('@/views/admin/ArticleCreateView.vue')
   },
